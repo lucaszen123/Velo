@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 
+/// AAA - Arrange, Act, Assert
+// AAA - prepara, agir, verificar
+
 test('deve consultar um pedido aprovado', async ({ page }) => {
   await page.goto('http://localhost:5173/');
 
