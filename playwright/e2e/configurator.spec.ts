@@ -1,43 +1,69 @@
 import { test, expect } from '../support/fixtures'
 
 test.describe('Configuração do Veículo', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/configure')
-    
-})
+  test.beforeEach(async ({ app }) => {
+    await app.configurator.open()
+  })
 
   
-  test('deve atualizar preço apenas ao alterar rodas para Sport', async ({ page }) => {
-    const priceElement = page.getByTestId('total-price')
-    const car = page.locator('img[alt^="Velô Sprint"]')
+  test('deve atualizar preço apenas ao alterar rodas para Sport', async ({ app }) => {
+    // Arrange
+    await app.configurator.expectTotalPrice('R$ 40.000,00')
 
-    await expect(priceElement).toBeVisible()
-    await expect(priceElement).toHaveText('R$ 40.000,00')
+    // Act
+    await app.configurator.selectColor('Midnight Black')
 
-    await page.getByRole('button', { name: 'Midnight Black' }).click()
-    await expect(priceElement).toHaveText('R$ 40.000,00')
-
-    await expect(car).toHaveAttribute('src', '/src/assets/midnight-black-aero-wheels.png')
-
+    // Assert
+    await app.configurator.expectTotalPrice('R$ 40.000,00')
+    await app.configurator.expectVehicleImage('/src/assets/midnight-black-aero-wheels.png')
   })
 
 
-  test('deve atualizar o preço e a imagem ao alterar as rodas e restaurar os valores padrão', async ({ page }) => {
-    const priceElement = page.getByTestId('total-price')
-    const car = page.locator('img[alt^="Velô Sprint"]')
-
-    await expect(priceElement).toBeVisible()
-    await expect(priceElement).toHaveText('R$ 40.000,00')
+  test('deve atualizar o preço e a imagem ao alterar as rodas, restaurar os valores padrão', async ({ app }) => {
+    // Arrange
+    await app.configurator.expectTotalPrice('R$ 40.000,00')
     
-    await page.getByRole('button', { name: /Sport Wheels/ }).click()
-    await expect(priceElement).toHaveText('R$ 42.000,00')
+    // Act
+    await app.configurator.selectWheels(/Sport Wheels/)
 
-    await expect(car).toHaveAttribute('src', '/src/assets/glacier-blue-sport-wheels.png')
+    // Assert
+    await app.configurator.expectTotalPrice('R$ 42.000,00')
+    await app.configurator.expectVehicleImage('/src/assets/glacier-blue-sport-wheels.png')
 
-    await page.getByRole('button', { name: /Aero Wheels/ }).click()
-    await expect(priceElement).toHaveText('R$ 40.000,00')
+    // Act
+    await app.configurator.selectWheels(/Aero Wheels/)
 
-    await expect(car).toHaveAttribute('src', '/src/assets/glacier-blue-aero-wheels.png')
+    // Assert
+    await app.configurator.expectTotalPrice('R$ 40.000,00')
+    await app.configurator.expectVehicleImage('/src/assets/glacier-blue-aero-wheels.png')
 
+  })
+})
+
+test.describe('CT03 - Configuração do Veículo (Adição de Opcionais) e Cálculo de Preço', () => {
+  test.beforeEach(async ({ app }) => {
+    await app.configurator.open()
+    // Pré-condição: veículo sem opcionais selecionados, preço base R$ 40.000,00
+    await app.configurator.expectTotalPrice('R$ 40.000,00')
+  })
+
+  test('deve atualizar o preço dinamicamente ao marcar e desmarcar opcionais e redirecionar para o checkout com os valores persistidos', async ({ app }) => {
+    // Passo 1 - Marcar "Precision Park": preço acrescido de R$ 5.500,00 (total: R$ 45.500,00)
+    await app.configurator.toggleOptional(/Precision Park/)
+    await app.configurator.expectTotalPrice('R$ 45.500,00')
+
+    // Passo 2 - Marcar "Flux Capacitor": preço acrescido de R$ 5.000,00 (total: R$ 50.500,00)
+    await app.configurator.toggleOptional(/Flux Capacitor/)
+    await app.configurator.expectTotalPrice('R$ 50.500,00')
+
+    // Passo 3 - Desmarcar ambos os opcionais: preço retorna a R$ 40.000,00
+    await app.configurator.toggleOptional(/Precision Park/)
+    await app.configurator.toggleOptional(/Flux Capacitor/)
+    await app.configurator.expectTotalPrice('R$ 40.000,00')
+
+    // Passo 4 - Clicar em "Monte o Seu": redireciona para /order com os valores persistidos
+    await app.configurator.clickCheckout()
+    await app.order.expectRedirectedToOrder()
+    await app.order.expectPaymentOption(/À Vista.*R\$ 40\.000,00/)
   })
 })

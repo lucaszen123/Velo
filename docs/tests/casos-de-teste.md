@@ -62,31 +62,33 @@ Validar que a alteração de componentes altera o preço final do veículo confo
 
 ---
 
-### CT03 - Finalização de pedido com pagamento À Vista (Fluxo Feliz)
+### CT03 - Configuração do Veículo (Adição de Opcionais) e Cálculo de Preço
 
 #### Objetivo
-Validar o fluxo completo de compra utilizando a forma de pagamento À Vista, que aprova o pedido diretamente sem análise de crédito.
+Validar se a seleção de Opciionais ("Precision Park" e "Flux Capacitor") atualiza dinamicamente o preço do veículo.
 
 #### Pré-Condições
-- O usuário configurou o veículo e avançou para a página de Checkout/Pedido (`/order`).
+- Estar na página do Configurador.
+- Veículo sem opcionais selecionados (Preço R$: 40.000,00).
 
 #### Passos
 
 | Id | Ação | Resultado Esperado |
 |----|------|--------------------|
-| 1 | Preencher Nome, Sobrenome e Email válidos | Os campos aceitam os valores digitados. |
-| 2 | Preencher Telefone e CPF com formatos válidos | As máscaras de formatação funcionam e os dados são aceitos. |
-| 3 | Selecionar uma Loja na lista suspensa | A loja é selecionada. |
-| 4 | Selecionar a forma de pagamento "À Vista" | A opção é destacada e o valor total não sofre adição de juros. |
-| 5 | Marcar a caixa de "Aceite os termos" | A caixa de seleção é marcada. |
-| 6 | Clicar em "Confirmar Pedido" | O sistema processa o pedido e redireciona para a tela de Confirmação de Sucesso. |
+| 1 | Marcar o checkbox do opcional "Precision Park" | O preço de venda deve ser acrescido de R$ 5.500,00 (Total 
+temporário: R$ 45.500,00). |
+| 2 | Marcar o checkbox do opcional "Flux Capacitor" | O preço de venda deve ser acrescido de R$ 5.000,00 (Total
+temporário: R$ 50.500,00). |
+| 3 | Desmarcar os checkboxes dos opcionais | O preço total deve subtrair os valores respectivos e voltar a R$ 40.000,00. |
+| 4 | Clicar no botão "Monteu o Seu" (Checkout) | O usuário é redirecionado para a página de checkout (`/order`) com os valores persistidos. |
+
 
 #### Resultados Esperados
-- O pedido é criado com status "APROVADO" (por ser à vista) e o usuário visualiza a página de Sucesso.
+- O preço total acompanha de forma exata a marcação e desmarcação dos opcionais.
+- O redirecionamento leva a configuração e o preço corretos para o checkout
 
 #### Critérios de Aceitação
-- Todos os dados obrigatórios devem ser preenchidos.
-- A página de Sucesso exibe o número do pedido (`order_number`) e os dados da compra.
+- O opcional "Precision Park" custa +R$ 5.500 e "Flux Capacitor" custar +R$ 5.000.
 
 ---
 

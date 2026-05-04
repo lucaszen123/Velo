@@ -1,0 +1,78 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e274]:
+    - banner [ref=e275]:
+      - generic [ref=e276]:
+        - generic [ref=e277]:
+          - button [ref=e278] [cursor=pointer]:
+            - img [ref=e279]
+          - heading "Finalizar Pedido" [level=1] [ref=e281]
+        - link "Velô" [ref=e282] [cursor=pointer]:
+          - /url: /
+          - img "Velô" [ref=e283]
+    - main [ref=e284]:
+      - generic [ref=e285]:
+        - generic [ref=e287]:
+          - generic [ref=e288]:
+            - heading "Dados Pessoais" [level=2] [ref=e289]
+            - generic [ref=e290]:
+              - generic [ref=e291]:
+                - text: Nome
+                - textbox "Nome" [ref=e292]
+              - generic [ref=e293]:
+                - text: Sobrenome
+                - textbox "Sobrenome" [ref=e294]
+              - generic [ref=e295]:
+                - text: Email
+                - textbox "Email" [ref=e296]
+              - generic [ref=e297]:
+                - text: Telefone
+                - textbox "Telefone" [ref=e298]
+              - generic [ref=e299]:
+                - text: CPF
+                - textbox "CPF" [ref=e300]
+              - generic [ref=e301]:
+                - text: Loja para Retirada
+                - combobox "Loja para Retirada" [ref=e302] [cursor=pointer]:
+                  - generic: Selecione uma loja
+                  - img [ref=e303]
+                - combobox [ref=e305]
+          - generic [ref=e306]:
+            - heading "Forma de Pagamento" [level=2] [ref=e307]
+            - generic [ref=e308]:
+              - button "À Vista R$ 40.000,00" [ref=e309] [cursor=pointer]:
+                - paragraph [ref=e310]: À Vista
+                - paragraph [ref=e311]: R$ 40.000,00
+              - button "Financiamento 12x de R$ 3.400,00" [ref=e312] [cursor=pointer]:
+                - paragraph [ref=e313]: Financiamento
+                - paragraph [ref=e314]: 12x de R$ 3.400,00
+          - generic [ref=e316]:
+            - checkbox "Li e aceito os Termos de Uso e Política de Privacidade" [ref=e317] [cursor=pointer]
+            - checkbox
+            - generic [ref=e319] [cursor=pointer]:
+              - text: Li e aceito os
+              - link "Termos de Uso" [ref=e320]:
+                - /url: /termos
+              - text: e
+              - link "Política de Privacidade" [ref=e321]:
+                - /url: /privacidade
+          - button "Confirmar Pedido" [ref=e322] [cursor=pointer]
+        - generic [ref=e324]:
+          - heading "Resumo" [level=2] [ref=e325]
+          - img "Velô Sprint" [ref=e327]
+          - heading "Velô Sprint" [level=3] [ref=e328]
+          - list [ref=e329]:
+            - listitem [ref=e330]:
+              - generic [ref=e331]: Cor
+              - generic [ref=e332]: Glacier Blue
+            - listitem [ref=e333]:
+              - generic [ref=e334]: Interior
+              - generic [ref=e335]: carbon black
+            - listitem [ref=e336]:
+              - generic [ref=e337]: Rodas
+              - generic [ref=e338]: aero Wheels
+          - generic [ref=e340]:
+            - generic [ref=e341]: Total
+            - generic [ref=e342]: R$ 40.000,00
